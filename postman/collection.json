@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "API Vendas e Comissões",
+    "description": "Requisições para demonstrar os fluxos solicitados na atividade.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:3000" }],
+  "item": [
+    { "name": "Saúde da API", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Listar vendedores", "request": { "method": "GET", "url": "{{baseUrl}}/vendedores" } },
+    { "name": "Cadastrar vendedor", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Fernanda Costa\",\n  \"meta_mensal\": 10000,\n  \"percentual_base\": 5\n}" }, "url": "{{baseUrl}}/vendedores" } },
+    { "name": "Atualizar meta e comissão base", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"meta_mensal\": 12000,\n  \"percentual_base\": 5.5\n}" }, "url": "{{baseUrl}}/vendedores/1" } },
+    { "name": "Registrar venda (comissão R$ 180)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"id_venda\": 2001,\n  \"id_vendedor\": 1,\n  \"id_regiao\": 1,\n  \"data_venda\": \"2026-10-25 10:00:00\",\n  \"valor_venda\": 2000,\n  \"tipo_cliente\": \"PJ\"\n}" }, "url": "{{baseUrl}}/vendas" } },
+    { "name": "Venda com código duplicado (espera 409)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"id_venda\": 1001,\n  \"id_vendedor\": 1,\n  \"id_regiao\": 1,\n  \"valor_venda\": 500,\n  \"tipo_cliente\": \"PF\"\n}" }, "url": "{{baseUrl}}/vendas" } },
+    { "name": "Venda para vendedor inexistente (espera 404)", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"id_venda\": 2002,\n  \"id_vendedor\": 9999,\n  \"id_regiao\": 1,\n  \"valor_venda\": 500,\n  \"tipo_cliente\": \"PF\"\n}" }, "url": "{{baseUrl}}/vendas" } },
+    { "name": "Consultar vendas por vendedor", "request": { "method": "GET", "url": "{{baseUrl}}/vendas/vendedor/1" } },
+    { "name": "Consultar vendas por região Norte", "request": { "method": "GET", "url": "{{baseUrl}}/vendas/regiao/1" } },
+    { "name": "Relatório mensal", "request": { "method": "GET", "url": "{{baseUrl}}/relatorios/performance?inicio=2026-10-01&fim=2026-10-31" } },
+    { "name": "Desativar vendedor", "request": { "method": "PATCH", "url": "{{baseUrl}}/vendedores/5/desativar" } },
+    { "name": "Excluir venda", "request": { "method": "DELETE", "url": "{{baseUrl}}/vendas/1015" } }
+  ]
+}
